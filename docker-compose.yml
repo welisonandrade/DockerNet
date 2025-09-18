@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  # servidor mestre - coordena tudo
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile.master
+    ports:
+      - "8080:8080"
+    depends_on:
+      - slave_letras
+      - slave_numeros
+    networks:
+      - dockernet
+
+  # escravo 1 - conta letras
+  slave_letras:
+    build:
+      context: .
+      dockerfile: Dockerfile.slave_letras
+    ports:
+      - "8081:8081"
+    networks:
+      - dockernet
+
+  # escravo 2 - conta números
+  slave_numeros:
+    build:
+      context: .
+      dockerfile: Dockerfile.slave_numeros
+    ports:
+      - "8082:8082"
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    driver: bridge

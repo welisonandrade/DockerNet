@@ -37,8 +37,22 @@ docker-compose up
 
 ```
 
-### 4. Acessar o Cliente
-O cliente pode ser executado localmente ou em outro dispositivo, e ele realizará as requisições ao servidor Mestre, que por sua vez, se comunica com os Escravos.
+### 4. Alternativa: Compilar localmente
+```bash
+mkdir build
+cd build
+cmake ..
+make
+
+# Rodar em terminais separados:
+# ./build/bin/slave_letras
+# ./build/bin/slave_numeros  
+# ./build/bin/master
+# ./build/bin/client
+```
+
+### 5. Testar o Sistema
+O cliente pode ser executado localmente e se comunicará com o Mestre via HTTP.
 
 ## Como Funciona
 - O **Cliente** envia um arquivo `.txt` contendo letras e números para o **Mestre**.
