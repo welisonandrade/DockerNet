@@ -1,0 +1,5 @@
+Sistemas Distribuídos 2024
+Aula sobre Threads e Docker
+Contagem: ABC123XYZ789
+Teste de processamento paralelo
+Resultado esperado: muitas letras e números
