@@ -1,6 +1,0 @@
-Hello World! This is a test file.
-It contains letters and numbers: 12345
-Let's count: ABC123DEF456GHI789
-Special characters: @#$%^&*()
-More text: Lorem ipsum dolor sit amet 2024
-Final numbers: 9876543210
