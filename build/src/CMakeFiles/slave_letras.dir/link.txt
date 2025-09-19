@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/slave_letras.dir/slave_letras/main.cpp.o CMakeFiles/slave_letras.dir/slave_letras/slave_letras.cpp.o -o ../bin/slave_letras

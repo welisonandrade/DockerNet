@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/master.dir/master/main.cpp.o CMakeFiles/master.dir/master/master_server.cpp.o -o ../bin/master

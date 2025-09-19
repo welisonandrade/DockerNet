@@ -95,7 +95,7 @@ public:
             return false;
         }
         
-        if (listen(server_fd, 3) < 0) {
+        if (::listen(server_fd, 3) < 0) {
             std::cerr << "Listen failed" << std::endl;
             return false;
         }

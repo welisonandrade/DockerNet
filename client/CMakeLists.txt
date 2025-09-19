@@ -6,5 +6,4 @@ add_executable(client
 
 target_link_libraries(client 
     Threads::Threads
-    httplib
 )

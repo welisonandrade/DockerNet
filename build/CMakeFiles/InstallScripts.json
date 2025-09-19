@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/geovana/Documents/DockerNet/build/cmake_install.cmake",
+		"/Users/geovana/Documents/DockerNet/build/src/cmake_install.cmake",
+		"/Users/geovana/Documents/DockerNet/build/client/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

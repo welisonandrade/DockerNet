@@ -1,0 +1,10 @@
+/Users/geovana/Documents/DockerNet/build/CMakeFiles/edit_cache.dir
+/Users/geovana/Documents/DockerNet/build/CMakeFiles/rebuild_cache.dir
+/Users/geovana/Documents/DockerNet/build/src/CMakeFiles/master.dir
+/Users/geovana/Documents/DockerNet/build/src/CMakeFiles/slave_letras.dir
+/Users/geovana/Documents/DockerNet/build/src/CMakeFiles/slave_numeros.dir
+/Users/geovana/Documents/DockerNet/build/src/CMakeFiles/edit_cache.dir
+/Users/geovana/Documents/DockerNet/build/src/CMakeFiles/rebuild_cache.dir
+/Users/geovana/Documents/DockerNet/build/client/CMakeFiles/client.dir
+/Users/geovana/Documents/DockerNet/build/client/CMakeFiles/edit_cache.dir
+/Users/geovana/Documents/DockerNet/build/client/CMakeFiles/rebuild_cache.dir
