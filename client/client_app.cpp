@@ -32,7 +32,9 @@ std::string ClientApp::sendToMaster(const std::string& host, int port, const std
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     
-    if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
+    if (host == "localhost") {
+        server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    } else if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
         throw std::runtime_error("Invalid address: " + host);
     }
     

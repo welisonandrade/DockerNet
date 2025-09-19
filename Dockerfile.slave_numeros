@@ -1,7 +1,10 @@
 # Dockerfile para o escravo de números
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-# instala dependências
+# Evita prompts interativos
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala dependências
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -10,18 +13,19 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# copia arquivos
+# Copia arquivos
 COPY CMakeLists.txt .
 COPY include/ include/
 COPY src/ src/
+COPY client/ client/
 
-# compila
-RUN mkdir build && cd build && \
+# Compila
+RUN mkdir -p build && cd build && \
     cmake .. && \
     make slave_numeros
 
-# porta 8082
+# Porta 8082
 EXPOSE 8082
 
-# executa o escravo
+# Executa o escravo
 CMD ["./build/bin/slave_numeros"]

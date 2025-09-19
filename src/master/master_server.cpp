@@ -7,6 +7,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <cstring>
+#include <cstdlib>
+#include <netdb.h>
 
 SlaveResult MasterServer::checkSlaveHealth(const std::string& host, int port) {
     SlaveResult result;
@@ -23,10 +25,18 @@ SlaveResult MasterServer::checkSlaveHealth(const std::string& host, int port) {
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     
-    if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
-        result.error = "Invalid address";
-        close(sock);
-        return result;
+    // Try to resolve hostname first
+    struct hostent* host_entry = gethostbyname(host.c_str());
+    if (host_entry == nullptr) {
+        // If hostname resolution fails, try as IP address
+        if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
+            result.error = "Invalid address/hostname";
+            close(sock);
+            return result;
+        }
+    } else {
+        // Use resolved IP
+        memcpy(&server_addr.sin_addr, host_entry->h_addr_list[0], host_entry->h_length);
     }
     
     if (connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
@@ -86,10 +96,18 @@ SlaveResult MasterServer::sendToSlave(const std::string& host, int port, const s
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
     
-    if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
-        result.error = "Invalid address";
-        close(sock);
-        return result;
+    // Try to resolve hostname first
+    struct hostent* host_entry = gethostbyname(host.c_str());
+    if (host_entry == nullptr) {
+        // If hostname resolution fails, try as IP address
+        if (inet_pton(AF_INET, host.c_str(), &server_addr.sin_addr) <= 0) {
+            result.error = "Invalid address/hostname";
+            close(sock);
+            return result;
+        }
+    } else {
+        // Use resolved IP
+        memcpy(&server_addr.sin_addr, host_entry->h_addr_list[0], host_entry->h_length);
     }
     
     if (connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
@@ -139,12 +157,16 @@ std::string MasterServer::processTextFile(const std::string& fileContent) {
     std::cout << "Processing text file with " << fileContent.length() << " characters" << std::endl;
     
     // Start two threads to communicate with slaves in parallel
-    auto lettersFuture = std::async(std::launch::async, [&fileContent]() {
-        return MasterServer::sendToSlave("slave_letras", 8081, "/letras", fileContent);
+    // Use 127.0.0.1 for local development, slave hostnames for Docker
+    const char* letras_host = std::getenv("DOCKER_ENV") ? "slave_letras" : "127.0.0.1";
+    const char* numeros_host = std::getenv("DOCKER_ENV") ? "slave_numeros" : "127.0.0.1";
+    
+    auto lettersFuture = std::async(std::launch::async, [&fileContent, letras_host]() {
+        return MasterServer::sendToSlave(letras_host, 8081, "/letras", fileContent);
     });
     
-    auto numbersFuture = std::async(std::launch::async, [&fileContent]() {
-        return MasterServer::sendToSlave("slave_numeros", 8082, "/numeros", fileContent);
+    auto numbersFuture = std::async(std::launch::async, [&fileContent, numeros_host]() {
+        return MasterServer::sendToSlave(numeros_host, 8082, "/numeros", fileContent);
     });
     
     // Wait for both results

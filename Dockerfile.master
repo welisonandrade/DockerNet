@@ -1,28 +1,32 @@
 # Dockerfile para o servidor mestre
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
-# instala dependências básicas
+# Evita prompts interativos
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala dependências básicas
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# diretório de trabalho
+# Diretório de trabalho
 WORKDIR /app
 
-# copia os arquivos do projeto
+# Copia os arquivos do projeto
 COPY CMakeLists.txt .
 COPY include/ include/
 COPY src/ src/
+COPY client/ client/
 
-# compila o projeto
-RUN mkdir build && cd build && \
+# Compila o projeto
+RUN mkdir -p build && cd build && \
     cmake .. && \
     make master
 
-# expõe a porta 8080
+# Expõe a porta 8080
 EXPOSE 8080
 
-# roda o servidor mestre
+# Roda o servidor mestre
 CMD ["./build/bin/master"]

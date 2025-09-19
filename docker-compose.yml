@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # servidor mestre - coordena tudo
   master:
@@ -11,6 +9,8 @@ services:
     depends_on:
       - slave_letras
       - slave_numeros
+    environment:
+      - DOCKER_ENV=1
     networks:
       - dockernet
 
