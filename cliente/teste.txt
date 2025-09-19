@@ -1,0 +1,1 @@
+Ola mundo 123! Testando o sistema distribuido em C++ com Docker 4567 no Fedora.
